@@ -102,15 +102,19 @@ main::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:300;op
 
 .clients{padding:56px 0 72px;border-top:1px solid var(--line)}
 .clientsTitle{text-align:center;font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:36px}
-.logoViewport{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.logoTrack{display:flex;gap:48px;width:max-content;animation:loop 46s linear infinite}
-.logoViewport:hover .logoTrack{animation-play-state:paused}
-@keyframes loop{to{transform:translateX(calc(-50% - 24px))}}
-.logo{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;width:120px}
-.chip{width:88px;height:88px;border-radius:50%;background:var(--paper);display:grid;place-items:center;overflow:hidden;box-shadow:0 0 0 1px var(--line);transition:transform .4s var(--ease)}
-.chip img{width:100%;height:100%;object-fit:cover}
-.chip.wide img{width:78%;height:auto;object-fit:contain}
-.chip.tall img{width:100%;height:100%;object-fit:cover;transform:scale(1.06)}
+.logoViewport{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;cursor:grab;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.logoViewport::-webkit-scrollbar{display:none}
+.logoViewport.dragging{cursor:grabbing;user-select:none}
+.logoTrack{display:flex;width:max-content;padding:6px 0}
+.logoNav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:28px}
+.logoNav span{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.logoNav button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--text);font-size:16px;transition:background .3s,border-color .3s,color .3s}
+.logoNav button:hover{background:var(--rose);border-color:var(--rose);color:var(--ink)}
+.logo{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;width:168px;padding:0 24px;flex:none}
+.chip{position:relative;width:88px;height:88px;border-radius:50%;background:var(--paper);display:block;overflow:hidden;box-shadow:0 0 0 1px var(--line);transition:transform .4s var(--ease)}
+.chip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;-webkit-user-drag:none}
+.chip.wide img{inset:0 11%;width:78%;object-fit:contain}
+.chip.tall img{object-fit:cover;object-position:50% 50%;transform:scale(1.07)}
 .logo:hover .chip{transform:translateY(-4px)}
 .logo figcaption{font-size:11px;color:var(--muted);text-align:center;line-height:1.3}
 
@@ -327,8 +331,7 @@ main::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:300;op
   .gallery.outlet .cell{grid-column:span 1}
   .gallery.outlet .cell:last-child{display:none}
   .caseInfo dl{gap:24px}
-  .logoTrack{gap:28px}
-  .logo{width:96px}
+  .logo{width:112px;padding:0 12px}
   .chip{width:72px;height:72px}
   .waFloat{right:14px;bottom:14px;width:50px;height:50px}
   .waFloat svg{width:25px;height:25px}

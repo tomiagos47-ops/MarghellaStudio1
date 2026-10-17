@@ -6,9 +6,9 @@ const waLink = (text: string) => `https://wa.me/${WHATSAPP}?text=${encodeURIComp
 const HELLO = "¡Hola Agos! Vi tu web y quiero consultarte por mis redes.";
 
 const nav = [
+  ["Resultados", "#resultados"],
   ["Servicios", "#servicios"],
   ["Trabajos", "#trabajos"],
-  ["Resultados", "#resultados"],
   ["Sobre mí", "#sobre-mi"],
   ["Planes", "#planes"],
 ];
@@ -107,6 +107,8 @@ export default function Home() {
   const [ready, setReady] = useState(false);
   const [showWa, setShowWa] = useState(false);
   const heroVideo = useRef<HTMLVideoElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const pauseLogos = useRef<(ms?: number) => void>(() => {});
   const complete = Object.values(audit).every(Boolean);
   const result = complete ? diagnose(audit) : null;
 
@@ -155,6 +157,82 @@ export default function Home() {
     window.addEventListener("keydown", esc);
     return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", esc); };
   }, [menu, box]);
+
+  useEffect(() => {
+    const el = logoRef.current;
+    if (!el) return;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let pos = 0, last = performance.now(), raf = 0, paused = false, hover = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let drag: { x: number; left: number; id: number } | null = null;
+    const half = () => el.scrollWidth / 2;
+    const wrap = () => {
+      const h = half();
+      if (h <= 0) return;
+      if (el.scrollLeft >= h) el.scrollLeft -= h;
+      else if (el.scrollLeft < 1) el.scrollLeft += h;
+    };
+    const pause = (ms = 2500) => {
+      paused = true;
+      clearTimeout(timer);
+      timer = setTimeout(() => { if (!hover && !drag) { paused = false; pos = el.scrollLeft; } }, ms);
+    };
+    pauseLogos.current = pause;
+    const tick = (t: number) => {
+      const dt = Math.min(t - last, 50);
+      last = t;
+      if (!paused && !reduce) { pos += dt * 0.035; el.scrollLeft = pos; }
+      wrap();
+      if (paused || reduce) pos = el.scrollLeft;
+      raf = requestAnimationFrame(tick);
+    };
+    const down = (e: PointerEvent) => {
+      pause(100000);
+      if (e.pointerType !== "mouse") return;
+      drag = { x: e.clientX, left: el.scrollLeft, id: e.pointerId };
+      el.setPointerCapture(e.pointerId);
+      el.classList.add("dragging");
+    };
+    const move = (e: PointerEvent) => { if (drag) el.scrollLeft = drag.left - (e.clientX - drag.x); };
+    const up = () => {
+      if (drag) { el.releasePointerCapture(drag.id); el.classList.remove("dragging"); drag = null; }
+      pause();
+    };
+    const enter = (e: PointerEvent) => { if (e.pointerType === "mouse") { hover = true; pause(100000); } };
+    const leave = (e: PointerEvent) => { if (e.pointerType === "mouse") { hover = false; pause(800); } };
+    const wheel = () => pause();
+    el.scrollLeft = 1;
+    pos = 1;
+    raf = requestAnimationFrame(tick);
+    el.addEventListener("pointerdown", down);
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerup", up);
+    el.addEventListener("pointercancel", up);
+    el.addEventListener("touchend", up, { passive: true });
+    el.addEventListener("pointerenter", enter);
+    el.addEventListener("pointerleave", leave);
+    el.addEventListener("wheel", wheel, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
+      el.removeEventListener("pointerdown", down);
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerup", up);
+      el.removeEventListener("pointercancel", up);
+      el.removeEventListener("touchend", up);
+      el.removeEventListener("pointerenter", enter);
+      el.removeEventListener("pointerleave", leave);
+      el.removeEventListener("wheel", wheel);
+    };
+  }, []);
+
+  const slideLogos = (dir: number) => {
+    const el = logoRef.current;
+    if (!el) return;
+    pauseLogos.current(3000);
+    const item = el.querySelector<HTMLElement>(".logo");
+    el.scrollBy({ left: dir * (item ? item.offsetWidth * 2 : 280), behavior: "smooth" });
+  };
 
   const playWithSound = () => {
     const v = heroVideo.current;
@@ -233,22 +311,49 @@ export default function Home() {
 
       <section className="clients" aria-label="Clientes">
         <p className="clientsTitle">Marcas que confían en el proceso</p>
-        <div className="logoViewport">
+        <div className="logoViewport" ref={logoRef}>
           <div className="logoTrack">
             {[...clients, ...clients].map((c, i) => (
               <figure key={`${c.name}-${i}`} className="logo" aria-hidden={i >= clients.length}>
-                <span className={`chip${c.tall ? " tall" : ""}${c.wide ? " wide" : ""}`}><img src={c.logo} alt={i < clients.length ? c.name : ""} loading="lazy" /></span>
+                <span className={`chip${c.tall ? " tall" : ""}${c.wide ? " wide" : ""}`}><img src={c.logo} alt={i < clients.length ? c.name : ""} loading="lazy" draggable={false} /></span>
                 <figcaption>{c.name}</figcaption>
               </figure>
             ))}
           </div>
+        </div>
+        <div className="logoNav">
+          <button onClick={() => slideLogos(-1)} aria-label="Ver logos anteriores">←</button>
+          <span>Deslizá para ver más</span>
+          <button onClick={() => slideLogos(1)} aria-label="Ver más logos">→</button>
+        </div>
+      </section>
+
+      <section className="section rosewood" id="resultados">
+        <div className="wrap">
+          <div className="head" data-reveal>
+            <p className="label">01 · Resultados</p>
+            <h2>No hay milagros. <em>Hay métricas que hablan.</em></h2>
+            <p>Datos de los paneles profesionales de las cuentas gestionadas. Tocá cada captura para ver la evidencia.</p>
+          </div>
+          <div className="numbers" data-reveal>
+            {results.map((r) => <div key={r.value}><b>{r.value}</b><span>{r.label}</span></div>)}
+          </div>
+          <div className="evidence" data-reveal>
+            {evidence.map((e) => (
+              <button key={e.src} onClick={() => setBox(e)} aria-label={`Ampliar: ${e.caption}`}>
+                <img src={e.src} alt={e.caption} loading="lazy" />
+                <span>{e.caption}</span>
+              </button>
+            ))}
+          </div>
+          <p className="note">Los resultados varían según la marca, el punto de partida y la constancia.</p>
         </div>
       </section>
 
       <section className="section light" id="servicios">
         <div className="wrap">
           <div className="head" data-reveal>
-            <p className="label">01 · Servicios</p>
+            <p className="label">02 · Servicios</p>
             <h2>Todo lo que tu marca necesita para <em>comunicar mejor.</em></h2>
             <p>No trabajo con fórmulas copiadas. Cada parte del proceso se piensa para tu marca.</p>
           </div>
@@ -273,7 +378,7 @@ export default function Home() {
       <section className="section" id="trabajos">
         <div className="wrap">
           <div className="head" data-reveal>
-            <p className="label">02 · Trabajos seleccionados</p>
+            <p className="label">03 · Trabajos seleccionados</p>
             <h2>Marcas reales, <em>trabajo que se ve.</em></h2>
           </div>
 
@@ -315,28 +420,6 @@ export default function Home() {
               <video controls playsInline preload="metadata"><source src="/evidencias/contenido-clientes.mp4#t=0.5" type="video/mp4" /></video>
             </div>
           </article>
-        </div>
-      </section>
-
-      <section className="section rosewood" id="resultados">
-        <div className="wrap">
-          <div className="head" data-reveal>
-            <p className="label">03 · Resultados</p>
-            <h2>No hay milagros. <em>Hay métricas que hablan.</em></h2>
-            <p>Datos de los paneles profesionales de las cuentas gestionadas. Tocá cada captura para ver la evidencia.</p>
-          </div>
-          <div className="numbers" data-reveal>
-            {results.map((r) => <div key={r.value}><b>{r.value}</b><span>{r.label}</span></div>)}
-          </div>
-          <div className="evidence" data-reveal>
-            {evidence.map((e) => (
-              <button key={e.src} onClick={() => setBox(e)} aria-label={`Ampliar: ${e.caption}`}>
-                <img src={e.src} alt={e.caption} loading="lazy" />
-                <span>{e.caption}</span>
-              </button>
-            ))}
-          </div>
-          <p className="note">Los resultados varían según la marca, el punto de partida y la constancia.</p>
         </div>
       </section>
 
