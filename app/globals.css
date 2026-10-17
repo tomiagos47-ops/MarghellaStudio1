@@ -207,3 +207,23 @@
  .serviceModalCopy h3{font-size:42px}
  .serviceModalClose{right:15px;top:10px}
 }
+
+/* ---- Mejoras oct-2026: video, formulario WhatsApp, diagnóstico, botón flotante ---- */
+.soundChip{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:11px 16px;background:var(--rose);color:white;font-size:13px;white-space:nowrap;cursor:pointer;box-shadow:0 8px 22px rgba(30,30,30,.3);animation:chipPulse 2.4s ease-in-out infinite}
+.soundChip:hover{background:#b45f60}
+@keyframes chipPulse{0%,100%{box-shadow:0 8px 22px rgba(30,30,30,.3),0 0 0 0 rgba(202,115,116,.55)}50%{box-shadow:0 8px 22px rgba(30,30,30,.3),0 0 0 10px rgba(202,115,116,0)}}
+.contact form label.fullRow{grid-column:1/-1}
+.contact select{border:1px solid #ffffff70;background:#ffffff14;color:white;border-radius:12px;padding:13px 14px;outline:none;font:inherit;font-size:13px;font-weight:400;letter-spacing:0;appearance:none;background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 15px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+.contact select option{color:#1e1e1e}
+.contact input:focus,.contact textarea:focus,.contact select:focus{border-color:white;background-color:#ffffff22}
+.formNote{grid-column:1/-1;text-align:center;font-size:11px;opacity:.75;margin-top:-6px}
+.sentReset{display:block;margin-top:16px;border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer;opacity:.8}
+.sentMessage .button{margin-top:18px}
+.diagnosis .diagnosisTip{background:rgba(202,115,116,.12);border-left:3px solid var(--rose);padding:14px 16px;border-radius:0 12px 12px 0;font-size:14px}
+.diagnosis .diagnosisPlan{font-size:14px;margin-bottom:22px}
+.diagnosis .diagnosisPlan b{color:var(--rose)}
+.waFloat{position:fixed;right:22px;bottom:22px;z-index:60;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#25d366;color:white;box-shadow:0 10px 26px rgba(0,0,0,.28);transition:transform .2s}
+.waFloat:hover{transform:scale(1.08)}
+.waFloat svg{width:30px;height:30px}
+@media(max-width:560px){.waFloat{right:16px;bottom:16px;width:54px;height:54px}.soundChip{font-size:12px;padding:10px 14px}}
+@media(prefers-reduced-motion:reduce){.soundChip{animation:none}html{scroll-behavior:auto}}
