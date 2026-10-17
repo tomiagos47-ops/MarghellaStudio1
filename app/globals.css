@@ -227,3 +227,71 @@
 .waFloat svg{width:30px;height:30px}
 @media(max-width:560px){.waFloat{right:16px;bottom:16px;width:54px;height:54px}.soundChip{font-size:12px;padding:10px 14px}}
 @media(prefers-reduced-motion:reduce){.soundChip{animation:none}html{scroll-behavior:auto}}
+
+/* ---- Capa premium oct-2026 ---- */
+/* Textura sutil de grano sobre toda la página */
+main{position:relative}
+main::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.darkMode::after{opacity:.07}
+/* Tipografía más refinada */
+h1,h2,h3{font-feature-settings:"ss01","kern";text-wrap:balance}
+p{text-wrap:pretty}
+em{letter-spacing:-.01em}
+::selection{background:var(--rose);color:white}
+/* Etiquetas de sección con filete */
+.sectionLabel{display:flex;align-items:center;gap:14px;letter-spacing:3px;font-size:10.5px}
+.sectionLabel::before{content:"";width:36px;height:1px;background:currentColor;opacity:.55}
+/* Navegación tipo vidrio */
+.nav{backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4)}
+.darkMode .nav{background:rgba(18,18,18,.72)}
+.navLinks>a:not(.navCta){position:relative}
+.navLinks>a:not(.navCta)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.75,.25,1)}
+.navLinks>a:not(.navCta):hover::after{transform:scaleX(1)}
+/* Botones con microinteracción */
+.button,.navCta{transition:transform .3s cubic-bezier(.2,.75,.25,1),box-shadow .3s,background-color .3s}
+.button:hover,.navCta:hover{transform:translateY(-2px)}
+.primary:hover{box-shadow:0 14px 30px rgba(140,64,65,.3)}
+.button span,.navCta span{transition:transform .3s}
+.button:hover span,.navCta:hover span{transform:translate(2px,-2px)}
+.textLink span{display:inline-block;transition:transform .3s}
+.textLink:hover span{transform:translate(2px,-2px)}
+/* Franja de servicios más editorial */
+.marquee{padding:18px 0}
+.marquee div{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:600;font-size:17px;letter-spacing:1px;word-spacing:10px}
+/* Logos de clientes: redondeo por marca, no por posición */
+.logoTrack .logoClient:nth-child(n) img{border-radius:0}
+.logoTrack .roundLogo:nth-child(n) img{border-radius:50%}
+.logoClient{transition:transform .35s cubic-bezier(.2,.75,.25,1),box-shadow .35s}
+/* Plan destacado legible en modo oscuro */
+.darkMode .plans .featuredFace{color:var(--ink);box-shadow:0 24px 60px rgba(202,115,116,.25)}
+.darkMode .plans .featuredFace>p,.darkMode .plans .featuredFace .planPrice span,.darkMode .plans .featuredFace li{color:#4a3a39}
+.darkMode .plans .featuredFace del{color:#7a6461}
+.darkMode .plans .featuredFace ul,.darkMode .plans .featuredFace .flipHint{border-color:rgba(30,30,30,.18)}
+.darkMode .plans .featuredFace li span{color:var(--rose)}
+.planFace{transition:transform .35s cubic-bezier(.2,.75,.25,1),box-shadow .35s}
+/* Proyecto destacado */
+.projectGrid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(36px,6vw,90px);align-items:center}
+.projectCopy h2{font-size:clamp(44px,5vw,72px);line-height:1;letter-spacing:-3px;margin:22px 0 24px}
+.projectCopy>p:not(.eyebrow){font-size:17px;line-height:1.7;max-width:480px;color:#5f5250}
+.darkMode .projectCopy>p:not(.eyebrow){color:#c9bdba}
+.projectSpecs{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:12px 38px;margin:34px 0 36px;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.darkMode .projectSpecs{border-color:#ffffff22}
+.projectSpecs dt{font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--rose);font-weight:700;margin-bottom:6px}
+.projectSpecs dd{margin:0;font-size:15px;font-weight:600}
+.projectPhotos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+.projectPhoto{position:relative;display:block;padding:0;border:0;background:#222;border-radius:22px;overflow:hidden;cursor:zoom-in;aspect-ratio:9/16;box-shadow:0 24px 50px rgba(30,20,20,.22);transition:transform .5s cubic-bezier(.2,.75,.25,1),box-shadow .5s}
+.projectPhoto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.2,.75,.25,1)}
+.projectPhoto:hover{transform:translateY(-6px);box-shadow:0 32px 60px rgba(30,20,20,.3)}
+.projectPhoto:hover img{transform:scale(1.04)}
+.projectPhoto span{position:absolute;left:14px;bottom:12px;font-family:"Playfair Display",Georgia,serif;font-style:italic;font-size:15px;color:white;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.projectPhoto2{margin-top:56px}
+.projectPhoto3{margin-top:22px}
+@media(max-width:900px){.projectGrid{grid-template-columns:1fr}.projectPhotos{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;margin-right:-32px;padding-right:32px;scrollbar-width:none}.projectPhotos::-webkit-scrollbar{display:none}.projectPhoto{scroll-snap-align:start}.projectPhoto2,.projectPhoto3{margin-top:0}}
+@media(max-width:560px){.projectCopy h2{font-size:44px;letter-spacing:-2px}.projectSpecs{grid-template-columns:1fr 1fr;gap:14px 24px}.projectPhotos{grid-auto-columns:72%;margin-right:-22px;padding-right:22px}}
+/* Aparición suave al hacer scroll */
+.revealReady>section:not(.hero):not(.marquee){opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.75,.25,1),transform .9s cubic-bezier(.2,.75,.25,1)}
+.revealReady>section.inView:not(.hero):not(.marquee){opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.revealReady>section:not(.hero):not(.marquee){opacity:1;transform:none;transition:none}.projectPhoto,.projectPhoto img,.button,.logoClient{transition:none}}
+/* Logos subidos como captura vertical: se recorta el círculo central */
+.logoTrack .tallLogo img{width:72px;height:72px;max-width:none;max-height:none;object-fit:cover;border-radius:50%}
+@media(max-width:560px){.logoTrack .tallLogo img{width:56px;height:56px}}
