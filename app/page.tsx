@@ -26,10 +26,10 @@ const clients = [
 ];
 
 const services = [
-  { n: "01", title: "Gestión de redes", copy: "Planificación, calendario, publicación y seguimiento. Para que tus redes tengan dirección, no solo movimiento.", items: ["Calendario mensual con objetivos claros", "Publicación y seguimiento de cada pieza", "Análisis para decidir qué sostener y qué ajustar"], image: "/evidencias/dulce-despues.webp" },
-  { n: "02", title: "Estrategia", copy: "Objetivos claros, pilares de contenido y decisiones basadas en lo que tu marca necesita de verdad.", items: ["Diagnóstico del punto de partida", "Pilares y formatos pensados para tu público", "Decisiones respaldadas por métricas reales"], image: "/evidencias/metricas-30-dias.webp" },
-  { n: "03", title: "Diseño e identidad", copy: "Piezas, carruseles e historias que se reconocen como tuyas. Si hace falta, también el branding completo.", items: ["Logo, paleta, tipografías y aplicaciones", "Sistema visual coherente en cada canal", "Cartelería y piezas para el local"], image: "/evidencias/outlet-identidad.webp" },
-  { n: "04", title: "Producción", copy: "Voy a tu negocio, saco fotos, grabo, edito y convierto lo cotidiano en contenido que conecta.", items: ["Jornadas presenciales en tu negocio", "Fotografía y grabación de situaciones reales", "Edición de reels listos para publicar"], video: "/evidencias/produccion.mp4" },
+  { n: "01", title: "Gestión de redes", copy: "Planificación, calendario, publicación y seguimiento. Para que tus redes tengan dirección, no solo movimiento.", items: ["Calendario mensual con objetivos claros", "Publicación y seguimiento de cada pieza", "Análisis para decidir qué sostener y qué ajustar"], image: "/evidencias/dulce-despues.webp", pos: "50% 18%" },
+  { n: "02", title: "Estrategia", copy: "Objetivos claros, pilares de contenido y decisiones basadas en lo que tu marca necesita de verdad.", items: ["Diagnóstico del punto de partida", "Pilares y formatos pensados para tu público", "Decisiones respaldadas por métricas reales"], image: "/evidencias/metricas-30-dias.webp", pos: "50% 0%" },
+  { n: "03", title: "Diseño e identidad", copy: "Piezas, carruseles e historias que se reconocen como tuyas. Si hace falta, también el branding completo.", items: ["Logo, paleta, tipografías y aplicaciones", "Sistema visual coherente en cada canal", "Cartelería y piezas para el local"], image: "/evidencias/outlet-identidad.webp", pos: "30% 50%" },
+  { n: "04", title: "Producción", copy: "Voy a tu negocio, saco fotos, grabo, edito y convierto lo cotidiano en contenido que conecta.", items: ["Jornadas presenciales en tu negocio", "Fotografía y grabación de situaciones reales", "Edición de reels listos para publicar"], video: "/evidencias/produccion.mp4", pos: "50% 22%" },
 ];
 
 const results = [
@@ -62,7 +62,7 @@ const steps = [
 
 const testimonials = [
   { quote: "Nos encanta cómo quedó la cuenta. Se nota muchísimo el cambio y la gente responde cada vez más al contenido.", name: "Dulce Manía", logo: "/logos/dulce-mania.webp" },
-  { quote: "Agos entendió lo que queríamos mostrar y logró que nuestra marca se vea mucho más clara, cercana y profesional.", name: "Outlet Factory", logo: "/logos/outlet.webp" },
+  { quote: "Agos entendió lo que queríamos mostrar y logró que nuestra marca se vea mucho más clara, cercana y profesional.", name: "Outlet Factory", logo: "/logos/outlet.webp", wide: true },
   { quote: "Siempre está atenta a cada detalle y transforma lo cotidiano del negocio en contenido que realmente nos representa.", name: "La Granja de Rotta", logo: "/logos/granja.webp" },
 ];
 
@@ -105,6 +105,7 @@ export default function Home() {
   const [plan, setPlan] = useState("");
   const [sent, setSent] = useState(false);
   const [ready, setReady] = useState(false);
+  const [showWa, setShowWa] = useState(false);
   const heroVideo = useRef<HTMLVideoElement>(null);
   const complete = Object.values(audit).every(Boolean);
   const result = complete ? diagnose(audit) : null;
@@ -116,7 +117,12 @@ export default function Home() {
       const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
       if (!conn?.saveData && !matchMedia("(prefers-reduced-motion: reduce)").matches) v.play().catch(() => {});
     }
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      const contact = document.getElementById("contacto");
+      const inContact = contact ? contact.getBoundingClientRect().top < window.innerHeight * 0.85 : false;
+      setShowWa(window.scrollY > window.innerHeight * 0.6 && !inContact);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -250,7 +256,7 @@ export default function Home() {
             {services.map((s) => (
               <article className="service" key={s.n} data-reveal>
                 <div className="serviceMedia">
-                  {s.video ? <video autoPlay muted loop playsInline preload="metadata"><source src={`${s.video}#t=0.1`} type="video/mp4" /></video> : <img src={s.image} alt="" loading="lazy" />}
+                  {s.video ? <video autoPlay muted loop playsInline preload="metadata" style={{ objectPosition: s.pos }}><source src={`${s.video}#t=0.1`} type="video/mp4" /></video> : <img src={s.image} alt="" loading="lazy" style={{ objectPosition: s.pos }} />}
                 </div>
                 <div className="serviceBody">
                   <span className="num">{s.n}</span>
@@ -344,7 +350,7 @@ export default function Home() {
             {testimonials.map((t) => (
               <figure key={t.name} data-reveal>
                 <blockquote>“{t.quote}”</blockquote>
-                <figcaption><img src={t.logo} alt="" loading="lazy" /><span><b>{t.name}</b>Cliente activo</span></figcaption>
+                <figcaption><img src={t.logo} alt="" loading="lazy" className={t.wide ? "wide" : ""} /><span><b>{t.name}</b>Cliente activo</span></figcaption>
               </figure>
             ))}
           </div>
@@ -491,7 +497,7 @@ export default function Home() {
         </div>
       </footer>
 
-      <a className="waFloat" href={waLink(HELLO)} target="_blank" rel="noreferrer" aria-label="Escribir por WhatsApp">
+      <a className={`waFloat${showWa ? "" : " hide"}`} aria-hidden={!showWa} tabIndex={showWa ? 0 : -1} href={waLink(HELLO)} target="_blank" rel="noreferrer" aria-label="Escribir por WhatsApp">
         <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.2.6 4.4 1.7 6.3L3.2 29l7.3-1.9c1.8 1 3.9 1.5 5.9 1.5 7 0 12.7-5.7 12.7-12.7C29.1 8.7 23 3 16 3Zm0 23.3c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-4.3 1.1 1.1-4.2-.3-.4a10.4 10.4 0 0 1-1.6-5.6C5.1 9.9 10 5.2 16 5.2s10.9 4.7 10.9 10.6S21.9 26.3 16 26.3Zm5.8-7.8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.2 3.2 1.3 3.4c.2.2 2.3 3.6 5.7 5 2.8 1.1 3.4.9 4 .8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4Z" /></svg>
       </a>
 
