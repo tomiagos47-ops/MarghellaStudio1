@@ -117,6 +117,10 @@ main::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:300;op
 .chip.tall img{object-fit:cover;object-position:50% 50%;transform:scale(1.07)}
 .logo:hover .chip{transform:translateY(-4px)}
 .logo figcaption{font-size:11px;color:var(--muted);text-align:center;line-height:1.3}
+.logo a{display:flex;flex-direction:column;align-items:center;gap:14px;color:inherit;-webkit-user-drag:none}
+.logo a:hover .chip,.logo a:focus-visible .chip{transform:translateY(-4px);box-shadow:0 0 0 2px var(--rose),0 10px 24px rgba(208,137,138,.25)}
+.logo a:hover figcaption{color:var(--text)}
+.logoViewport.dragging a{pointer-events:none}
 
 .services{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .service{background:var(--paper);border:1px solid var(--lineDark);border-radius:24px;overflow:hidden;display:grid;grid-template-columns:.9fr 1.1fr;min-height:340px;transition:transform .5s var(--ease),box-shadow .5s}

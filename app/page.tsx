@@ -14,15 +14,15 @@ const nav = [
 ];
 
 const clients = [
-  { name: "Dulce Manía", logo: "/logos/dulce-mania.webp" },
-  { name: "Heladería Isabella", logo: "/logos/isabella.webp" },
-  { name: "Outlet Factory", logo: "/logos/outlet.webp", wide: true },
-  { name: "El Emporio", logo: "/logos/emporio.webp" },
+  { name: "Dulce Manía", logo: "/logos/dulce-mania.webp", ig: "https://www.instagram.com/dmania.ok/" },
+  { name: "Heladería Isabella", logo: "/logos/isabella.webp", ig: "https://www.instagram.com/heladosisabella/" },
+  { name: "Outlet Factory", logo: "/logos/outlet.webp", wide: true, ig: "https://www.instagram.com/outletfactory.varela/" },
+  { name: "El Emporio", logo: "/logos/emporio.webp", ig: "https://www.instagram.com/autoparteselemporio/" },
   { name: "La Granja de Rotta", logo: "/logos/granja.webp" },
-  { name: "Memphis Complejo Deportivo", logo: "/logos/memphis.webp", wide: true },
-  { name: "RTO Revicar", logo: "/logos/rto-revicar.webp", wide: true },
-  { name: "Tapicería Rey", logo: "/logos/tapiceria-rey.jpg", tall: true },
-  { name: "Sanar Pilates", logo: "/logos/sanar-pilates.jpg", tall: true },
+  { name: "Memphis Complejo Deportivo", logo: "/logos/memphis.webp", wide: true, ig: "https://www.instagram.com/memphiscomplejodeportivo/" },
+  { name: "RTO Revicar", logo: "/logos/rto-revicar.webp", wide: true, ig: "https://www.instagram.com/revicar_rto/" },
+  { name: "Tapicería Rey", logo: "/logos/tapiceria-rey.jpg", tall: true, ig: "https://www.instagram.com/tapiceriarey.ok/" },
+  { name: "Sanar Pilates", logo: "/logos/sanar-pilates.jpg", tall: true, ig: "https://www.instagram.com/sanar_pilates/" },
 ];
 
 const services = [
@@ -164,7 +164,8 @@ export default function Home() {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let pos = 0, last = performance.now(), raf = 0, paused = false, hover = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
-    let drag: { x: number; left: number; id: number } | null = null;
+    let drag: { x: number; left: number; id: number; moving: boolean } | null = null;
+    let blockClick = false;
     const half = () => el.scrollWidth / 2;
     const wrap = () => {
       const h = half();
@@ -189,15 +190,29 @@ export default function Home() {
     const down = (e: PointerEvent) => {
       pause(100000);
       if (e.pointerType !== "mouse") return;
-      drag = { x: e.clientX, left: el.scrollLeft, id: e.pointerId };
-      el.setPointerCapture(e.pointerId);
-      el.classList.add("dragging");
+      drag = { x: e.clientX, left: el.scrollLeft, id: e.pointerId, moving: false };
     };
-    const move = (e: PointerEvent) => { if (drag) el.scrollLeft = drag.left - (e.clientX - drag.x); };
+    const move = (e: PointerEvent) => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x;
+      if (!drag.moving && Math.abs(dx) > 6) {
+        drag.moving = true;
+        el.setPointerCapture(drag.id);
+        el.classList.add("dragging");
+      }
+      if (drag.moving) el.scrollLeft = drag.left - dx;
+    };
     const up = () => {
-      if (drag) { el.releasePointerCapture(drag.id); el.classList.remove("dragging"); drag = null; }
+      if (drag?.moving) {
+        el.releasePointerCapture(drag.id);
+        el.classList.remove("dragging");
+        blockClick = true;
+        setTimeout(() => { blockClick = false; }, 50);
+      }
+      drag = null;
       pause();
     };
+    const click = (e: MouseEvent) => { if (blockClick) { e.preventDefault(); e.stopPropagation(); } };
     const enter = (e: PointerEvent) => { if (e.pointerType === "mouse") { hover = true; pause(100000); } };
     const leave = (e: PointerEvent) => { if (e.pointerType === "mouse") { hover = false; pause(800); } };
     const wheel = () => pause();
@@ -212,7 +227,9 @@ export default function Home() {
     el.addEventListener("pointerenter", enter);
     el.addEventListener("pointerleave", leave);
     el.addEventListener("wheel", wheel, { passive: true });
+    el.addEventListener("click", click, true);
     return () => {
+      el.removeEventListener("click", click, true);
       cancelAnimationFrame(raf);
       clearTimeout(timer);
       el.removeEventListener("pointerdown", down);
@@ -315,15 +332,24 @@ export default function Home() {
           <div className="logoTrack">
             {[...clients, ...clients].map((c, i) => (
               <figure key={`${c.name}-${i}`} className="logo" aria-hidden={i >= clients.length}>
-                <span className={`chip${c.tall ? " tall" : ""}${c.wide ? " wide" : ""}`}><img src={c.logo} alt={i < clients.length ? c.name : ""} loading="lazy" draggable={false} /></span>
-                <figcaption>{c.name}</figcaption>
+                {c.ig ? (
+                  <a href={c.ig} target="_blank" rel="noopener noreferrer" draggable={false} tabIndex={i >= clients.length ? -1 : 0} aria-label={`Instagram de ${c.name}`}>
+                    <span className={`chip${c.tall ? " tall" : ""}${c.wide ? " wide" : ""}`}><img src={c.logo} alt="" loading="lazy" draggable={false} /></span>
+                    <figcaption>{c.name}</figcaption>
+                  </a>
+                ) : (
+                  <>
+                    <span className={`chip${c.tall ? " tall" : ""}${c.wide ? " wide" : ""}`}><img src={c.logo} alt={i < clients.length ? c.name : ""} loading="lazy" draggable={false} /></span>
+                    <figcaption>{c.name}</figcaption>
+                  </>
+                )}
               </figure>
             ))}
           </div>
         </div>
         <div className="logoNav">
           <button onClick={() => slideLogos(-1)} aria-label="Ver logos anteriores">←</button>
-          <span>Deslizá para ver más</span>
+          <span>Deslizá para ver más · Tocá un logo para ver su Instagram</span>
           <button onClick={() => slideLogos(1)} aria-label="Ver más logos">→</button>
         </div>
       </section>
