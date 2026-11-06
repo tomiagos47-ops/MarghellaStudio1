@@ -9,8 +9,8 @@ const nav = [
   ["Servicios", "#servicios"],
   ["Resultados", "#resultados"],
   ["Trabajos", "#trabajos"],
+  ["Planes", "#planes"],
   ["Sobre mí", "#sobre-mi"],
-  ["Preguntas", "#preguntas"],
 ];
 
 const clients = [
@@ -53,10 +53,11 @@ const evidence = [
   { src: "/evidencias/metricas-julio.webp", caption: "Julio: 91% de alcance a no seguidores" },
 ];
 
-const testimonials = [
-  { quote: "Nos encanta cómo quedó la cuenta. Se nota muchísimo el cambio y la gente responde cada vez más al contenido.", name: "Dulce Manía", logo: "/logos/dulce-mania.webp" },
-  { quote: "Agos entendió lo que queríamos mostrar y logró que nuestra marca se vea mucho más clara, cercana y profesional.", name: "Outlet Factory", logo: "/logos/outlet.webp", wide: true },
-  { quote: "Siempre está atenta a cada detalle y transforma lo cotidiano del negocio en contenido que realmente nos representa.", name: "La Granja de Rotta", logo: "/logos/granja.webp" },
+const plans = [
+  { name: "Esencial", copy: "Para ordenar tu comunicación y empezar a aparecer con constancia.", items: ["1 publicación semanal", "1 a 2 historias", "Edición", "Planificación"], ideal: "Publicás sin una frecuencia clara y necesitás una base profesional." },
+  { name: "Crecimiento", copy: "Para delegar tus redes y trabajar el crecimiento en serio.", items: ["2 publicaciones semanales", "2 historias", "Producción de contenido", "Gestión y análisis mensual"], ideal: "Querés sostener una estrategia y medir qué contenido funciona." },
+  { name: "Premium", copy: "Gestión integral para marcas que quieren más presencia.", items: ["3 publicaciones semanales", "3 historias", "2 visitas al negocio", "Reels, diseño y análisis"], ideal: "Tu marca necesita volumen de contenido y crecimiento sostenido.", featured: true },
+  { name: "E-commerce", copy: "Todo el plan Premium, más una web propia para tu marca.", items: ["Todo el plan Premium", "Diseño de página web", "Servicios o catálogo", "Sitio adaptado a celulares"], ideal: "Además de redes, necesitás un espacio propio para vender o recibir consultas." },
 ];
 
 const faqs = [
@@ -64,10 +65,10 @@ const faqs = [
   ["¿Tengo que generar yo el contenido?", "No. Vamos a tu local a grabar y sacar fotos, y nos ocupamos del diseño, la edición y la publicación."],
   ["¿Cuánto tarda en verse un cambio?", "Ordenar la imagen del perfil se nota rápido; crecer y generar comunidad lleva constancia. No prometemos magia: trabajamos con objetivos que se pueden medir."],
   ["¿Puedo contratar algo puntual?", "Sí. También hacemos jornadas de contenido, lanzamientos o campañas puntuales sin contratar la gestión completa."],
-  ["¿Cómo sé cuánto sale?", "Cada propuesta se arma según lo que necesita tu marca. Escribinos por WhatsApp, charlamos y te pasamos un presupuesto a medida."],
+  ["¿Cómo sé cuánto sale?", "Depende del plan y de lo que sumes o adaptes. Escribinos por WhatsApp, charlamos sobre tu negocio y te pasamos el presupuesto."],
 ];
 
-const needs = ["Gestión de redes", "Producción de contenido en mi local", "Diseño o identidad de marca", "Una campaña o jornada puntual", "Todavía no sé, quiero asesoramiento"];
+const needs = [...plans.map((p) => `Plan ${p.name}`), "Gestión de TikTok", "Gestión de redes", "Producción de contenido en mi local", "Diseño o identidad de marca", "Una campaña o jornada puntual", "Todavía no sé, quiero asesoramiento"];
 
 function Sparkle({ className = "" }: { className?: string }) {
   return (
@@ -98,6 +99,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [box, setBox] = useState<{ src: string; caption: string } | null>(null);
   const [sent, setSent] = useState(false);
+  const [need, setNeed] = useState("");
   const [ready, setReady] = useState(false);
   const [showWa, setShowWa] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -426,15 +428,6 @@ export default function Home() {
             </div>
           </article>
 
-          <div className="quotes">
-            {testimonials.map((t) => (
-              <figure key={t.name} data-reveal>
-                <span className="qmark" aria-hidden="true">“</span>
-                <blockquote>{t.quote}</blockquote>
-                <figcaption><img src={t.logo} alt="" loading="lazy" className={t.wide ? "wide" : ""} /><b>{t.name}</b></figcaption>
-              </figure>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -455,15 +448,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───────── PREGUNTAS ───────── */}
-      <section className="section rosa" id="preguntas">
-        <div className="wrap faq">
+      {/* ───────── PLANES ───────── */}
+      <section className="section rosa" id="planes">
+        <div className="wrap">
           <div className="head" data-reveal>
-            <p className="label">Preguntas frecuentes</p>
-            <h2>Antes de <span className="script">empezar</span></h2>
+            <p className="label">Planes</p>
+            <h2>Un plan para cada <span className="script">etapa de tu marca</span></h2>
+            <p className="intro">Elegí el punto de partida. Los valores te los pasamos por WhatsApp según lo que necesite tu negocio.</p>
           </div>
-          <div className="faqList" data-reveal>
-            {faqs.map(([q, a]) => <details key={q}><summary>{q}<span aria-hidden="true" /></summary><p>{a}</p></details>)}
+          <div className="plans">
+            {plans.map((p) => (
+              <article key={p.name} className={`plan${p.featured ? " featured" : ""}`} data-reveal>
+                {p.featured && <span className="badge">Más elegido</span>}
+                <h3>{p.name}</h3>
+                <p>{p.copy}</p>
+                <ul>{p.items.map((it) => <li key={it}>{it}</li>)}</ul>
+                <p className="ideal"><span>Ideal si</span>{p.ideal}</p>
+                <a className="btn" href="#contacto" onClick={() => { setNeed(`Plan ${p.name}`); setSent(false); }}>Consultar</a>
+              </article>
+            ))}
+          </div>
+          <div className="extras" data-reveal>
+            <div><Sparkle /><p><b>Planes a tu medida.</b> Cada plan se puede modificar: sumamos o cambiamos lo que tu negocio necesite, con un costo adicional.</p></div>
+            <div><Sparkle /><p><b>TikTok aparte.</b> También gestionamos tu cuenta de TikTok, como servicio adicional a cualquier plan.</p></div>
+          </div>
+
+          <div className="faq" id="preguntas">
+            <div className="head" data-reveal>
+              <p className="label">Preguntas frecuentes</p>
+              <h2>Antes de <span className="script">empezar</span></h2>
+            </div>
+            <div className="faqList" data-reveal>
+              {faqs.map(([q, a]) => <details key={q}><summary>{q}<span aria-hidden="true" /></summary><p>{a}</p></details>)}
+            </div>
           </div>
         </div>
       </section>
@@ -496,8 +513,8 @@ export default function Home() {
                 <label>Nombre<input required name="nombre" autoComplete="name" placeholder="¿Cómo te llamás?" /></label>
                 <label>Marca o negocio<input required name="marca" autoComplete="organization" placeholder="Nombre de tu negocio" /></label>
                 <label className="full">¿Qué necesitás?
-                  <select name="necesidad" defaultValue="">
-                    <option value="" disabled>Elegí una opción</option>
+                  <select name="necesidad" value={need} onChange={(e) => setNeed(e.target.value)}>
+                    <option value="">Elegí una opción</option>
                     {needs.map((n) => <option key={n} value={n}>{n}</option>)}
                   </select>
                 </label>
