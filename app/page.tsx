@@ -304,7 +304,7 @@ export default function Home() {
         <div className="wrap"><div className="heroStats">
           <div><b>6,8 M</b><span>visualizaciones en un reel</span></div>
           <div><b>+2.253%</b><span>crecimiento en un mes</span></div>
-          <div><b>+{clients.length}</b><span>marcas acompañadas</span></div>
+          <div><b>+11</b><span>marcas gestionadas</span></div>
           <div><b>2023</b><span>creando contenido</span></div>
         </div></div>
       </section>
