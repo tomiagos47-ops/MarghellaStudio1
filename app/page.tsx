@@ -3,14 +3,14 @@ import { useEffect, useRef, useState } from "react";
 
 const WHATSAPP = "5491162667127";
 const waLink = (text: string) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
-const HELLO = "¡Hola Agos! Vi tu web y quiero consultarte por mis redes.";
+const HELLO = "¡Hola Agos! Vi la web de Marghella Studio y quiero consultarte por mis redes.";
 
 const nav = [
-  ["Resultados", "#resultados"],
   ["Servicios", "#servicios"],
+  ["Resultados", "#resultados"],
   ["Trabajos", "#trabajos"],
   ["Sobre mí", "#sobre-mi"],
-  ["Planes", "#planes"],
+  ["Preguntas", "#preguntas"],
 ];
 
 const clients = [
@@ -26,38 +26,31 @@ const clients = [
 ];
 
 const services = [
-  { n: "01", title: "Gestión de redes", copy: "Planificación, calendario, publicación y seguimiento. Para que tus redes tengan dirección, no solo movimiento.", items: ["Calendario mensual con objetivos claros", "Publicación y seguimiento de cada pieza", "Análisis para decidir qué sostener y qué ajustar"], image: "/evidencias/dulce-despues.webp", pos: "50% 18%" },
-  { n: "02", title: "Estrategia", copy: "Objetivos claros, pilares de contenido y decisiones basadas en lo que tu marca necesita de verdad.", items: ["Diagnóstico del punto de partida", "Pilares y formatos pensados para tu público", "Decisiones respaldadas por métricas reales"], image: "/evidencias/metricas-30-dias.webp", pos: "50% 0%" },
-  { n: "03", title: "Diseño e identidad", copy: "Piezas, carruseles e historias que se reconocen como tuyas. Si hace falta, también el branding completo.", items: ["Logo, paleta, tipografías y aplicaciones", "Sistema visual coherente en cada canal", "Cartelería y piezas para el local"], image: "/evidencias/outlet-identidad.webp", pos: "30% 50%" },
-  { n: "04", title: "Producción", copy: "Voy a tu negocio, saco fotos, grabo, edito y convierto lo cotidiano en contenido que conecta.", items: ["Jornadas presenciales en tu negocio", "Fotografía y grabación de situaciones reales", "Edición de reels listos para publicar"], video: "/evidencias/produccion.mp4", pos: "50% 22%" },
+  { n: "01", title: "Gestión de redes", copy: "Planificamos, publicamos y hacemos el seguimiento. Tus redes con dirección, no solo con movimiento.", items: ["Calendario mensual", "Publicación de cada pieza", "Seguimiento y ajustes"] },
+  { n: "02", title: "Producción en tu local", copy: "Vamos a tu negocio, grabamos y sacamos fotos de lo que pasa todos los días. Lo editamos y queda listo para publicar.", items: ["Jornadas de grabación", "Fotografía de producto y local", "Edición de reels"] },
+  { n: "03", title: "Diseño e identidad", copy: "Piezas, carruseles e historias que se reconocen como tuyas. Si hace falta, también logo, paleta y cartelería.", items: ["Carruseles e historias", "Identidad de marca", "Piezas para el local"] },
+  { n: "04", title: "Estrategia y métricas", copy: "Definimos qué querés lograr y miramos los números para decidir qué sostener y qué cambiar.", items: ["Objetivos y pilares", "Análisis mensual", "Decisiones con datos reales"] },
+];
+
+const steps = [
+  ["Nos conocemos", "Charlamos sobre tu marca, tu público y lo que querés lograr."],
+  ["Armamos el plan", "Definimos la estrategia y los contenidos del mes."],
+  ["Grabamos y diseñamos", "Vamos a tu local, producimos y editamos cada pieza."],
+  ["Medimos", "Revisamos qué funcionó para mejorar mes a mes."],
 ];
 
 const results = [
-  { value: "6,8 M", label: "visualizaciones en una sola publicación" },
-  { value: "2,6 M", label: "cuentas alcanzadas con contenido orgánico" },
-  { value: "+2.253%", label: "de crecimiento frente al mes anterior" },
+  { value: "6,8 M", label: "visualizaciones en un solo reel" },
+  { value: "2,6 M", label: "cuentas alcanzadas sin pauta" },
+  { value: "+2.253%", label: "de crecimiento en un mes" },
   { value: "+1.422", label: "seguidores nuevos desde una pieza" },
 ];
 
 const evidence = [
-  { src: "/evidencias/reel-viral.webp", caption: "Publicación con 6,8 M de visualizaciones" },
+  { src: "/evidencias/reel-viral.webp", caption: "Reel con 6,8 M de visualizaciones" },
   { src: "/evidencias/metricas-marzo.webp", caption: "Marzo: 3,7 M de visualizaciones" },
   { src: "/evidencias/metricas-mayo.webp", caption: "Mayo: 491 mil visualizaciones" },
   { src: "/evidencias/metricas-julio.webp", caption: "Julio: 91% de alcance a no seguidores" },
-];
-
-const plans = [
-  { name: "Esencial", price: "$125.000", copy: "Para ordenar tu comunicación y empezar a aparecer con constancia.", items: ["1 publicación semanal", "1 a 2 historias", "Edición", "Planificación"], ideal: "Publicás sin una frecuencia clara y necesitás una base profesional." },
-  { name: "Crecimiento", price: "$175.000", copy: "Para delegar tus redes y trabajar el crecimiento en serio.", items: ["2 publicaciones semanales", "2 historias", "Producción de contenido", "Gestión y análisis mensual"], ideal: "Querés sostener una estrategia y medir qué contenido funciona." },
-  { name: "Premium", price: "$250.000", old: "$300.000", copy: "Gestión integral para marcas que quieren más presencia.", items: ["3 publicaciones semanales", "3 historias", "2 visitas al negocio", "Reels, diseño y análisis"], ideal: "Tu marca necesita volumen de contenido y crecimiento sostenido.", featured: true },
-  { name: "E-commerce", price: "$400.000", copy: "Todo el plan Premium, más una web propia para tu marca.", items: ["Todo el plan Premium", "Diseño de página web", "Servicios o catálogo", "Sitio adaptado a celulares"], ideal: "Además de redes, necesitás un espacio propio para vender o recibir consultas." },
-];
-
-const steps = [
-  ["Nos conocemos", "Charlamos sobre tu marca, tus objetivos y lo que hoy te preocupa."],
-  ["Armamos el plan", "Defino la estrategia y la propuesta de contenidos del mes."],
-  ["Creamos", "Producimos, diseñamos y editamos cada pieza con una intención."],
-  ["Medimos y ajustamos", "Revisamos qué funcionó para tomar mejores decisiones."],
 ];
 
 const testimonials = [
@@ -67,58 +60,50 @@ const testimonials = [
 ];
 
 const faqs = [
-  ["¿Trabajás con cualquier tipo de negocio?", "Trabajo principalmente con comercios, marcas de productos y servicios que valoran una comunicación cercana y están dispuestos a construir un proceso."],
-  ["¿Tengo que generar yo el contenido?", "No necesariamente. Puedo ocuparme de la producción de fotos y videos en tu negocio, además del diseño y la edición."],
-  ["¿Cuánto tarda en verse un cambio?", "Ordenar la identidad y la comunicación se nota rápido; crecer y generar comunidad lleva constancia. No prometo resultados mágicos: construimos objetivos medibles."],
-  ["¿Podés trabajar solo una campaña?", "Sí. También podemos hacer una jornada de contenido, un lanzamiento o una campaña puntual sin contratar la gestión completa."],
+  ["¿Con qué tipo de negocios trabajan?", "Principalmente con comercios y marcas de zona sur: gastronomía, kioscos y dulcerías, heladerías, gimnasios, talleres, tiendas de hogar y servicios. Lo importante es que quieras construir un proceso."],
+  ["¿Tengo que generar yo el contenido?", "No. Vamos a tu local a grabar y sacar fotos, y nos ocupamos del diseño, la edición y la publicación."],
+  ["¿Cuánto tarda en verse un cambio?", "Ordenar la imagen del perfil se nota rápido; crecer y generar comunidad lleva constancia. No prometemos magia: trabajamos con objetivos que se pueden medir."],
+  ["¿Puedo contratar algo puntual?", "Sí. También hacemos jornadas de contenido, lanzamientos o campañas puntuales sin contratar la gestión completa."],
+  ["¿Cómo sé cuánto sale?", "Cada propuesta se arma según lo que necesita tu marca. Escribinos por WhatsApp, charlamos y te pasamos un presupuesto a medida."],
 ];
 
-const questions = [
-  { key: "frequency", title: "¿Con qué frecuencia publicás?", options: ["Sin frecuencia fija", "1 o 2 veces por semana", "3 o más veces por semana"] },
-  { key: "identity", title: "¿Tu perfil tiene una identidad visual clara?", options: ["Todavía no", "Más o menos", "Sí, totalmente"] },
-  { key: "goal", title: "¿Tenés un objetivo concreto para tus redes?", options: ["No sé por dónde empezar", "Tengo una idea", "Sí, está definido"] },
-] as const;
-type Key = (typeof questions)[number]["key"];
-type Audit = Record<Key, string>;
-const tips: Record<Key, string> = {
-  frequency: "Tu prioridad es la constancia: con un calendario mensual dejás de decidir qué publicar a último momento y tu comunidad sabe cuándo esperarte.",
-  identity: "Tu prioridad es la identidad visual: cuando cada pieza sigue el mismo sistema, tu perfil se reconoce sin leer el nombre.",
-  goal: "Tu prioridad es definir un objetivo: vender, recibir consultas o generar comunidad piden contenidos distintos, y sin un norte claro no se puede medir qué funciona.",
-};
-function diagnose(a: Audit) {
-  const keys: Key[] = ["frequency", "identity", "goal"];
-  const score = (k: Key) => (questions.find((q) => q.key === k)!.options as readonly string[]).indexOf(a[k]);
-  const total = keys.reduce((s, k) => s + score(k), 0);
-  const weakest = keys.reduce((w, k) => (score(k) < score(w) ? k : w));
-  if (total <= 2) return { level: "Punto de partida", title: "Tus redes necesitan una base antes de crecer.", copy: "Hoy cada publicación arranca de cero. Ordenar frecuencia, identidad y objetivo se nota rápido.", tip: tips[weakest], plan: "Esencial" };
-  if (total <= 4) return { level: "Buena base", title: "Hay una buena base. Falta convertirla en un proceso.", copy: "Con una estrategia mensual podés sostener lo que ya funciona y medir qué contenidos acercan oportunidades reales.", tip: tips[weakest], plan: "Crecimiento" };
-  return { level: "Lista para escalar", title: "Tus redes están ordenadas. Es momento de escalar.", copy: "El siguiente paso es sumar producción, más formatos y análisis para multiplicar el alcance sin perder coherencia.", tip: score("goal") < 2 ? tips.goal : "Tu prioridad es el volumen y la calidad: más reels, producción en tu negocio y análisis mensual.", plan: "Premium" };
+const needs = ["Gestión de redes", "Producción de contenido en mi local", "Diseño o identidad de marca", "Una campaña o jornada puntual", "Todavía no sé, quiero asesoramiento"];
+
+function Sparkle({ className = "" }: { className?: string }) {
+  return (
+    <svg className={`sparkle ${className}`} viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M12 0c.9 7.4 3.6 10.6 12 12-8.4 1.4-11.1 4.6-12 12-.9-7.4-3.6-10.6-12-12C8.4 10.6 11.1 7.4 12 0Z" />
+    </svg>
+  );
+}
+
+function Oval({ className = "" }: { className?: string }) {
+  return (
+    <svg className={`oval ${className}`} viewBox="0 0 320 110" aria-hidden="true" preserveAspectRatio="none">
+      <path d="M58 92C18 80 10 52 62 32 124 8 250 8 296 34c34 20 6 52-52 64-74 15-178 12-214-14C8 66 30 40 84 26" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function Arrow({ className = "" }: { className?: string }) {
+  return (
+    <svg className={`arrow ${className}`} viewBox="0 0 100 80" aria-hidden="true">
+      <path d="M8 6c6 34 30 58 78 54M72 48l14 12-13 12" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
 }
 
 export default function Home() {
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [sound, setSound] = useState(false);
   const [box, setBox] = useState<{ src: string; caption: string } | null>(null);
-  const [audit, setAudit] = useState<Audit>({ frequency: "", identity: "", goal: "" });
-  const [showResult, setShowResult] = useState(false);
-  const [plan, setPlan] = useState("");
   const [sent, setSent] = useState(false);
   const [ready, setReady] = useState(false);
   const [showWa, setShowWa] = useState(false);
-  const heroVideo = useRef<HTMLVideoElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const pauseLogos = useRef<(ms?: number) => void>(() => {});
-  const complete = Object.values(audit).every(Boolean);
-  const result = complete ? diagnose(audit) : null;
 
   useEffect(() => {
-    const v = heroVideo.current;
-    if (v) {
-      v.muted = true;
-      const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-      if (!conn?.saveData && !matchMedia("(prefers-reduced-motion: reduce)").matches) v.play().catch(() => {});
-    }
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
       const contact = document.getElementById("contacto");
@@ -251,18 +236,11 @@ export default function Home() {
     el.scrollBy({ left: dir * (item ? item.offsetWidth * 2 : 280), behavior: "smooth" });
   };
 
-  const playWithSound = () => {
-    const v = heroVideo.current;
-    if (!v) return;
-    v.loop = false; v.currentTime = 0; v.muted = false; v.volume = 1;
-    setSound(true);
-    v.play().catch(() => {});
-  };
-
   const sendForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const d = new FormData(e.currentTarget);
-    const text = `¡Hola Agos! Soy ${d.get("nombre")}, de ${d.get("marca")}.\n${plan ? `Me interesa el plan ${plan}.\n` : ""}\n${d.get("mensaje")}`;
+    const need = d.get("necesidad");
+    const text = `¡Hola Agos! Soy ${d.get("nombre")}, de ${d.get("marca")}.\n${need ? `Me interesa: ${need}.\n` : ""}\n${d.get("mensaje")}`;
     const url = waLink(text);
     if (!window.open(url, "_blank", "noopener")) window.location.href = url;
     setSent(true);
@@ -277,57 +255,61 @@ export default function Home() {
   return (
     <main className={ready ? "ready" : ""}>
       <header className={`nav${scrolled ? " solid" : ""}`}>
-        <a className="brand" href="#inicio" aria-label="Marghella Studio, inicio">
-          <img src="/logo-marghella-icon.png" alt="" />
-          <span>Marghella<i>.studio</i></span>
-        </a>
+        <a className="brand" href="#inicio" aria-label="Marghella Studio, inicio">Marghella Studio</a>
         <nav className="navLinks" aria-label="Secciones">
           {nav.map(([l, h]) => <a key={h} href={h}>{l}</a>)}
         </nav>
-        <a className="btn small navCta" href="#contacto">Hablemos <span aria-hidden="true">↗</span></a>
+        <a className="btn small navCta" href="#contacto">Hablemos</a>
         <button className="menuBtn" onClick={() => setMenu(true)} aria-label="Abrir menú" aria-expanded={menu}><span /><span /></button>
       </header>
 
       <div className={`menu${menu ? " open" : ""}`} role="dialog" aria-modal="true" aria-label="Menú" aria-hidden={!menu}>
         <button className="menuClose" onClick={() => setMenu(false)} aria-label="Cerrar menú">×</button>
         <nav onClick={() => setMenu(false)}>
-          {nav.map(([l, h], i) => <a key={h} href={h}><small>0{i + 1}</small>{l}</a>)}
-          <a href="#contacto"><small>06</small>Contacto</a>
+          {nav.map(([l, h]) => <a key={h} href={h}>{l}</a>)}
+          <a href="#contacto">Contacto</a>
         </nav>
-        <a className="btn" href={waLink(HELLO)} target="_blank" rel="noreferrer">Escribime por WhatsApp <span>↗</span></a>
+        <a className="btn" href={waLink(HELLO)} target="_blank" rel="noreferrer">Escribinos por WhatsApp</a>
       </div>
 
+      {/* ───────── HERO ───────── */}
       <section className="hero" id="inicio">
-        <div className="glow" aria-hidden="true" />
         <div className="wrap heroGrid">
           <div className="heroCopy">
-            <p className="kicker">Community manager · Diseño visual · Contenido</p>
-            <h1>Tu marca tiene algo para decir. <em>Hagamos que se note.</em></h1>
-            <p className="lead">Estrategia, contenido y diseño para marcas que quieren dejar de improvisar y empezar a comunicar con intención.</p>
+            <p className="pill">Redes · Contenido · Diseño</p>
+            <h1>
+              <span className="h1Top">Hacemos crecer</span>
+              <span className="script">tu marca<Oval /></span>
+            </h1>
+            <p className="lead">Contenido real, grabado en tu local, para que la gente quiera visitarlo. Estrategia, producción y diseño para comercios de zona sur.</p>
             <div className="actions">
-              <a className="btn" href="#diagnostico">Diagnóstico gratuito <span>↗</span></a>
-              <a className="link" href="#trabajos">Ver trabajos <span>↓</span></a>
+              <a className="btn" href={waLink(HELLO)} target="_blank" rel="noreferrer">Escribinos por WhatsApp</a>
+              <a className="link" href="#trabajos">Ver trabajos <span aria-hidden="true">↓</span></a>
             </div>
           </div>
-          <div className="heroMedia">
-            <div className="videoFrame">
-              <video ref={heroVideo} playsInline loop preload="metadata" controls={sound}>
-                <source src="/propuesta-agostina.mp4#t=0.3" type="video/mp4" />
+          <div className="heroArt">
+            <Sparkle className="s1" />
+            <Sparkle className="s2" />
+            <div className="heroVideo">
+              <video autoPlay muted loop playsInline preload="auto" poster="/marghella-en-accion.jpg" aria-label="Marghella Studio grabando contenido en un restaurante">
+                <source src="/marghella-en-accion.mp4" type="video/mp4" />
               </video>
-              {!sound && <button className="soundBtn" onClick={playWithSound}><span aria-hidden="true">▶</span>Conoceme en 24 segundos</button>}
             </div>
+            <p className="sticker"><Sparkle />En acción, grabando en el local</p>
+            <Arrow className="heroArrow" />
           </div>
         </div>
-        <div className="wrap heroStats">
-          <div><b>{clients.length}</b><span>marcas acompañadas</span></div>
-          <div><b>6,8 M</b><span>visualizaciones en una pieza</span></div>
+        <div className="wrap"><div className="heroStats">
+          <div><b>6,8 M</b><span>visualizaciones en un reel</span></div>
           <div><b>+2.253%</b><span>crecimiento en un mes</span></div>
-          <div><b>2023</b><span>acompañando marcas</span></div>
-        </div>
+          <div><b>+{clients.length}</b><span>marcas acompañadas</span></div>
+          <div><b>2023</b><span>creando contenido</span></div>
+        </div></div>
       </section>
 
+      {/* ───────── CLIENTES ───────── */}
       <section className="clients" aria-label="Clientes">
-        <p className="clientsTitle">Marcas que confían en el proceso</p>
+        <p className="label center">Marcas que confían en nosotras</p>
         <div className="logoViewport" ref={logoRef}>
           <div className="logoTrack">
             {[...clients, ...clients].map((c, i) => (
@@ -349,17 +331,46 @@ export default function Home() {
         </div>
         <div className="logoNav">
           <button onClick={() => slideLogos(-1)} aria-label="Ver logos anteriores">←</button>
-          <span>Deslizá para ver más · Tocá un logo para ver su Instagram</span>
+          <span>Tocá un logo para ver su Instagram</span>
           <button onClick={() => slideLogos(1)} aria-label="Ver más logos">→</button>
         </div>
       </section>
 
-      <section className="section rosewood" id="resultados">
+      {/* ───────── SERVICIOS ───────── */}
+      <section className="section rosa" id="servicios">
         <div className="wrap">
           <div className="head" data-reveal>
-            <p className="label">01 · Resultados</p>
-            <h2>No hay milagros. <em>Hay métricas que hablan.</em></h2>
-            <p>Datos de los paneles profesionales de las cuentas gestionadas. Tocá cada captura para ver la evidencia.</p>
+            <p className="label">Qué hacemos</p>
+            <h2>Todo lo que tu marca necesita <span className="script">en un solo lugar</span></h2>
+          </div>
+          <div className="services">
+            {services.map((s) => (
+              <article className="service" key={s.n} data-reveal>
+                <span className="num">{s.n}</span>
+                <h3>{s.title}</h3>
+                <p>{s.copy}</p>
+                <ul>{s.items.map((it) => <li key={it}>{it}</li>)}</ul>
+              </article>
+            ))}
+          </div>
+
+          <div className="process" data-reveal>
+            <p className="label">Cómo trabajamos</p>
+            <ol className="steps">
+              {steps.map(([t, c], i) => <li key={t}><span>{i + 1}</span><h3>{t}</h3><p>{c}</p></li>)}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────── RESULTADOS ───────── */}
+      <section className="section vino" id="resultados">
+        <Sparkle className="deco d1" />
+        <div className="wrap">
+          <div className="head" data-reveal>
+            <p className="label">Resultados</p>
+            <h2>Números reales <span className="script">que se notan</span></h2>
+            <p className="intro">Capturas de las estadísticas de cuentas que gestionamos. Tocá cada una para verla completa.</p>
           </div>
           <div className="numbers" data-reveal>
             {results.map((r) => <div key={r.value}><b>{r.value}</b><span>{r.label}</span></div>)}
@@ -376,181 +387,80 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section light" id="servicios">
+      {/* ───────── TRABAJOS ───────── */}
+      <section className="section rosa" id="trabajos">
         <div className="wrap">
           <div className="head" data-reveal>
-            <p className="label">02 · Servicios</p>
-            <h2>Todo lo que tu marca necesita para <em>comunicar mejor.</em></h2>
-            <p>No trabajo con fórmulas copiadas. Cada parte del proceso se piensa para tu marca.</p>
-          </div>
-          <div className="services">
-            {services.map((s) => (
-              <article className="service" key={s.n} data-reveal>
-                <div className="serviceMedia">
-                  {s.video ? <video autoPlay muted loop playsInline preload="metadata" style={{ objectPosition: s.pos }}><source src={`${s.video}#t=0.1`} type="video/mp4" /></video> : <img src={s.image} alt="" loading="lazy" style={{ objectPosition: s.pos }} />}
-                </div>
-                <div className="serviceBody">
-                  <span className="num">{s.n}</span>
-                  <h3>{s.title}</h3>
-                  <p>{s.copy}</p>
-                  <ul>{s.items.map((it) => <li key={it}>{it}</li>)}</ul>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="trabajos">
-        <div className="wrap">
-          <div className="head" data-reveal>
-            <p className="label">03 · Trabajos seleccionados</p>
-            <h2>Marcas reales, <em>trabajo que se ve.</em></h2>
+            <p className="label">Trabajos</p>
+            <h2>Marcas reales, <span className="script">trabajo que se ve</span></h2>
           </div>
 
           <article className="case" data-reveal>
             <div className="caseInfo">
-              <span className="num">Caso 01</span>
-              <h3>Outlet Factory</h3>
-              <p>Desarrollé la identidad completa de la marca: isotipo, paleta, tipografía y aplicaciones. Después la llevé a la calle con el cartel de la sucursal Varela, para que el local se reconozca igual que en Instagram.</p>
-              <dl><div><dt>Alcance</dt><dd>Identidad y cartelería</dd></div><div><dt>Pieza destacada</dt><dd>Fachada sucursal Varela</dd></div></dl>
+              <p className="pill">Dulce Manía · Adrogué</p>
+              <h3>Un perfil que da ganas de visitar</h3>
+              <p>Ordenamos la cuenta con una línea visual reconocible y contenido grabado en el local. El cambio se ve en la grilla y en cómo responde la gente.</p>
+              <dl>
+                <div><dt>Antes</dt><dd>1.834 seguidores</dd></div>
+                <div><dt>Después</dt><dd>6.172 seguidores</dd></div>
+              </dl>
             </div>
-            <div className="gallery outlet">
-              {shot("/evidencias/outlet-identidad.webp", "Sistema de identidad de Outlet Factory", "Sistema de identidad visual de Outlet Factory", "wide")}
-              {shot("/evidencias/outlet-aplicacion.webp", "Aplicaciones de marca de Outlet Factory", "Tarjetas con la marca Outlet Factory", "wide")}
-              {[1, 2, 3].map((i) => <span key={i} className="cell">{shot(`/evidencias/outlet-varela-${i}.jpg`, "Cartel de Outlet Factory Varela", "Fachada de Outlet Factory Varela con el cartel nuevo", "tall")}</span>)}
+            <div className="compare">
+              <div className="cmp">{shot("/evidencias/dulce-antes.webp", "Dulce Manía, antes", "Perfil de Dulce Manía antes de la gestión")}<span className="tag">Antes</span></div>
+              <div className="cmp">{shot("/evidencias/dulce-despues.webp", "Dulce Manía, después", "Perfil de Dulce Manía después de la gestión")}<span className="tag on">Después</span></div>
             </div>
           </article>
 
           <article className="case flip" data-reveal>
             <div className="caseInfo">
-              <span className="num">Caso 02</span>
-              <h3>Dulce Manía</h3>
-              <p>Ordené el perfil con una línea visual reconocible y contenido propio de la marca. El cambio se ve en la grilla y en cómo responde la gente.</p>
-              <blockquote>“Se nota muchísimo el cambio y la gente responde cada vez más al contenido.”</blockquote>
-            </div>
-            <div className="gallery compare">
-              <div className="cmp">{shot("/evidencias/dulce-antes.webp", "Dulce Manía, antes", "Perfil de Dulce Manía antes de la gestión")}<span className="tag">Antes</span></div>
-              <div className="cmp">{shot("/evidencias/dulce-despues.webp", "Dulce Manía, después", "Perfil de Dulce Manía después de la gestión")}<span className="tag rose">Después</span></div>
-            </div>
-          </article>
-
-          <article className="case" data-reveal>
-            <div className="caseInfo">
-              <span className="num">Caso 03</span>
-              <h3>Jornadas de contenido</h3>
-              <p>No me quedo detrás de una pantalla. Voy a cada negocio, conozco a sus personas y transformo lo que pasa todos los días en contenido cercano y auténtico.</p>
-              <dl><div><dt>Formato</dt><dd>Foto, video y edición</dd></div><div><dt>Dónde</dt><dd>En tu local</dd></div></dl>
+              <p className="pill">Autopartes El Emporio · Monte Grande</p>
+              <h3>Grabamos donde pasan las cosas</h3>
+              <p>Vamos al local, grabamos con la gente del lugar y lo convertimos en reels claros y comerciales, listos para publicar.</p>
+              <dl>
+                <div><dt>Formato</dt><dd>Reels</dd></div>
+                <div><dt>Dónde</dt><dd>En el local</dd></div>
+              </dl>
             </div>
             <div className="caseVideo">
-              <video controls playsInline preload="metadata"><source src="/evidencias/contenido-clientes.mp4#t=0.5" type="video/mp4" /></video>
+              <video autoPlay muted loop playsInline controls preload="metadata"><source src="/evidencias/produccion.mp4#t=0.1" type="video/mp4" /></video>
             </div>
           </article>
-        </div>
-      </section>
 
-      <section className="section light" id="testimonios">
-        <div className="wrap">
-          <div className="head center" data-reveal>
-            <p className="label">04 · Testimonios</p>
-            <h2>Cuando el proceso funciona, <em>también se siente.</em></h2>
-          </div>
           <div className="quotes">
             {testimonials.map((t) => (
               <figure key={t.name} data-reveal>
-                <blockquote>“{t.quote}”</blockquote>
-                <figcaption><img src={t.logo} alt="" loading="lazy" className={t.wide ? "wide" : ""} /><span><b>{t.name}</b>Cliente activo</span></figcaption>
+                <span className="qmark" aria-hidden="true">“</span>
+                <blockquote>{t.quote}</blockquote>
+                <figcaption><img src={t.logo} alt="" loading="lazy" className={t.wide ? "wide" : ""} /><b>{t.name}</b></figcaption>
               </figure>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section" id="sobre-mi">
+      {/* ───────── SOBRE MÍ ───────── */}
+      <section className="section vino" id="sobre-mi">
         <div className="wrap about">
-          <div className="portrait" data-reveal><img src="/agostina-sobre-mi.webp" alt="Agostina Marghella, community manager y diseñadora visual" loading="lazy" /></div>
+          <div className="portrait" data-reveal>
+            <img src="/agostina-sobre-mi.webp" alt="Agostina Marghella, fundadora de Marghella Studio" loading="lazy" />
+            <Sparkle className="ps" />
+          </div>
           <div className="aboutCopy" data-reveal>
-            <p className="label">05 · Sobre mí</p>
-            <h2>Detrás del estudio, <em>estoy yo.</em></h2>
-            <p className="big">Soy Agostina, community manager, creadora de contenido y diseñadora visual. Estudio Diseño y Comunicación Visual en la Universidad Nacional de Lanús.</p>
-            <p>Desde 2023 acompaño a marcas de distintos rubros. Pienso la estrategia, voy al lugar, grabo, saco fotos, edito, diseño y gestiono sus redes para que construyan identidad, generen confianza y conviertan seguidores en clientes.</p>
-            <p className="tools"><span>Herramientas</span>Photoshop · Illustrator · InDesign · Lightroom · Figma · Canva</p>
-          </div>
-        </div>
-        <div className="wrap stepsWrap">
-          <div className="head" data-reveal>
-            <p className="label">06 · Cómo trabajamos</p>
-            <h2>Simple, cercano y <em>sin vueltas.</em></h2>
-          </div>
-          <ol className="steps">
-            {steps.map(([t, c], i) => <li key={t} data-reveal><span>0{i + 1}</span><h3>{t}</h3><p>{c}</p></li>)}
-          </ol>
-        </div>
-      </section>
-
-      <section className="section light" id="planes">
-        <div className="wrap">
-          <div className="head" data-reveal>
-            <p className="label">07 · Planes</p>
-            <h2>Un acompañamiento <em>a tu medida.</em></h2>
-            <p>Valores mensuales. También hago campañas y jornadas de contenido puntuales.</p>
-          </div>
-          <div className="plans">
-            {plans.map((p) => (
-              <article key={p.name} className={`plan${p.featured ? " featured" : ""}`} data-reveal>
-                {p.featured && <span className="badge">Más elegido</span>}
-                <h3>{p.name}</h3>
-                <div className="price">{p.old && <del>{p.old}</del>}<b>{p.price}</b><small>/ mes</small></div>
-                <p>{p.copy}</p>
-                <ul>{p.items.map((it) => <li key={it}>{it}</li>)}</ul>
-                <p className="ideal"><span>Ideal si</span>{p.ideal}</p>
-                <a className={`btn${p.featured ? "" : " ghost"}`} href="#contacto" onClick={() => { setPlan(p.name); setSent(false); }}>Consultar <span>↗</span></a>
-              </article>
-            ))}
+            <p className="label">Sobre mí</p>
+            <h2>Detrás del estudio <span className="script">estoy yo</span></h2>
+            <p className="big">Soy Agostina Marghella, community manager, creadora de contenido y diseñadora. Estudio Diseño y Comunicación Visual en la Universidad Nacional de Lanús.</p>
+            <p>Desde 2023 acompaño a comercios de zona sur. Pensamos la estrategia, vamos al local, grabamos, editamos, diseñamos y gestionamos sus redes para que la gente los conozca, les tenga confianza y los elija.</p>
+            <p className="tools"><span>Herramientas</span>Illustrator · InDesign · Photoshop · Lightroom · Figma · Canva · CapCut</p>
           </div>
         </div>
       </section>
 
-      <section className="section" id="diagnostico">
-        <div className="wrap audit">
-          <div className="auditIntro" data-reveal>
-            <p className="label">08 · Diagnóstico gratuito</p>
-            <h2>¿Tus redes están trabajando <em>para vos?</em></h2>
-            <p>Respondé tres preguntas y recibí un primer diagnóstico orientativo. Te lleva menos de un minuto.</p>
-          </div>
-          <div className="auditCard" data-reveal>
-            {!showResult || !result ? (
-              <>
-                {questions.map((q, qi) => (
-                  <fieldset key={q.key}>
-                    <legend><span>{qi + 1}</span>{q.title}</legend>
-                    <div className="opts">
-                      {q.options.map((o) => <button type="button" key={o} className={audit[q.key] === o ? "on" : ""} onClick={() => setAudit({ ...audit, [q.key]: o })}>{o}</button>)}
-                    </div>
-                  </fieldset>
-                ))}
-                <button className="btn full" disabled={!complete} onClick={() => setShowResult(true)}>Ver mi diagnóstico <span>↗</span></button>
-              </>
-            ) : (
-              <div className="diagnosis">
-                <p className="kicker">Tu diagnóstico · {result.level}</p>
-                <h3>{result.title}</h3>
-                <p>{result.copy}</p>
-                <p className="tip"><b>Por dónde empezar.</b> {result.tip}</p>
-                <p className="suggest">Plan sugerido: <b>{result.plan}</b></p>
-                <a className="btn full" href={waLink(`¡Hola Agos! Hice el diagnóstico de tu web.\n• Frecuencia: ${audit.frequency}\n• Identidad visual: ${audit.identity}\n• Objetivo: ${audit.goal}\nMe sugirió el plan ${result.plan}. Me gustaría una mirada personalizada.`)} target="_blank" rel="noreferrer">Enviarle mi diagnóstico a Agos <span>↗</span></a>
-                <button className="reset" onClick={() => { setShowResult(false); setAudit({ frequency: "", identity: "", goal: "" }); }}>Volver a responder</button>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      <section className="section light" id="preguntas">
+      {/* ───────── PREGUNTAS ───────── */}
+      <section className="section rosa" id="preguntas">
         <div className="wrap faq">
           <div className="head" data-reveal>
-            <p className="label">09 · Preguntas frecuentes</p>
-            <h2>Antes de <em>empezar.</em></h2>
+            <p className="label">Preguntas frecuentes</p>
+            <h2>Antes de <span className="script">empezar</span></h2>
           </div>
           <div className="faqList" data-reveal>
             {faqs.map(([q, a]) => <details key={q}><summary>{q}<span aria-hidden="true" /></summary><p>{a}</p></details>)}
@@ -558,12 +468,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="contact" id="contacto">
+      {/* ───────── CONTACTO ───────── */}
+      <section className="contact vino" id="contacto">
+        <Sparkle className="deco d2" />
         <div className="wrap contactGrid">
           <div data-reveal>
-            <p className="label">10 · Contacto</p>
-            <h2>Hagamos que <em>tu marca se note.</em></h2>
-            <p>Contame en qué etapa estás y vemos juntas cuál puede ser el próximo paso.</p>
+            <p className="label">Contacto</p>
+            <h2>Hagamos que <span className="script">tu marca se note</span></h2>
+            <p className="intro">Contanos en qué etapa estás y te armamos una propuesta a medida.</p>
             <div className="direct">
               <a href={waLink(HELLO)} target="_blank" rel="noreferrer">WhatsApp <span>↗</span></a>
               <a href="https://www.instagram.com/marghella.studio" target="_blank" rel="noreferrer">Instagram <span>↗</span></a>
@@ -576,21 +488,21 @@ export default function Home() {
               <div className="sent">
                 <h3>¡Listo! Tu mensaje ya está en WhatsApp.</h3>
                 <p>Solo falta que toques enviar. Si no se abrió la app, usá el botón.</p>
-                <a className="btn" href={waLink("¡Hola Agos! Te escribo desde tu web.")} target="_blank" rel="noreferrer">Abrir WhatsApp <span>↗</span></a>
+                <a className="btn" href={waLink("¡Hola Agos! Te escribo desde la web.")} target="_blank" rel="noreferrer">Abrir WhatsApp</a>
                 <button className="reset" onClick={() => setSent(false)}>Escribir otra consulta</button>
               </div>
             ) : (
               <form onSubmit={sendForm}>
                 <label>Nombre<input required name="nombre" autoComplete="name" placeholder="¿Cómo te llamás?" /></label>
-                <label>Marca o negocio<input required name="marca" autoComplete="organization" placeholder="Contame qué hacés" /></label>
-                <label className="full">Plan que te interesa
-                  <select name="plan" value={plan} onChange={(e) => setPlan(e.target.value)}>
-                    <option value="">Todavía no sé, quiero asesoramiento</option>
-                    {plans.map((p) => <option key={p.name} value={p.name}>{p.name} · {p.price} / mes</option>)}
+                <label>Marca o negocio<input required name="marca" autoComplete="organization" placeholder="Nombre de tu negocio" /></label>
+                <label className="full">¿Qué necesitás?
+                  <select name="necesidad" defaultValue="">
+                    <option value="" disabled>Elegí una opción</option>
+                    {needs.map((n) => <option key={n} value={n}>{n}</option>)}
                   </select>
                 </label>
-                <label className="full">¿En qué te puedo ayudar?<textarea required name="mensaje" placeholder="Contame brevemente qué necesitás" /></label>
-                <button className="btn full" type="submit">Enviar por WhatsApp <span>↗</span></button>
+                <label className="full">Contanos un poco más<textarea required name="mensaje" placeholder="¿Qué te gustaría lograr con tus redes?" /></label>
+                <button className="btn full" type="submit">Enviar por WhatsApp</button>
                 <small>Se abre WhatsApp con tu mensaje listo para enviar.</small>
               </form>
             )}
@@ -600,9 +512,9 @@ export default function Home() {
 
       <footer className="footer">
         <div className="wrap footGrid">
-          <a className="brand" href="#inicio"><img src="/logo-marghella-icon.png" alt="" /><span>Marghella<i>.studio</i></span></a>
+          <a className="brand" href="#inicio">Marghella Studio</a>
           <nav aria-label="Pie de página">{nav.map(([l, h]) => <a key={h} href={h}>{l}</a>)}</nav>
-          <p>© {new Date().getFullYear()} Marghella Studio · Community manager y diseño visual</p>
+          <p>© {new Date().getFullYear()} Marghella Studio · Zona sur, Buenos Aires</p>
         </div>
       </footer>
 

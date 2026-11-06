@@ -1,13 +1,19 @@
 import type { Metadata, Viewport } from "next";
+import "@fontsource/archivo-black/400.css";
+import "@fontsource/great-vibes/400.css";
+import "@fontsource/montserrat/400.css";
+import "@fontsource/montserrat/500.css";
+import "@fontsource/montserrat/600.css";
+import "@fontsource/montserrat/700.css";
 import "./globals.css";
 
 const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : "http://localhost:3000";
 
-const title = "Marghella Studio — Community Manager y Diseño Visual";
+const title = "Marghella Studio — Redes, contenido y diseño en zona sur";
 const description =
-  "Estrategia, contenido y diseño visual para marcas que quieren comunicar con intención. Gestión de redes, producción de fotos y video, y branding.";
+  "Hacemos crecer tu marca: gestión de redes, contenido grabado en tu local y diseño para comercios de zona sur.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -28,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#141414",
+  themeColor: "#3A0B12",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
